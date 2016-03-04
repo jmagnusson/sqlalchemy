@@ -796,7 +796,7 @@ class ColumnElement(operators.ColumnOperators, ClauseElement):
         """
         return Cast(self, type_)
 
-    def label(self, name):
+    def label(self, name, key=None):
         """Produce a column label, i.e. ``<columnname> AS <name>``.
 
         This is a shortcut to the :func:`~.expression.label` function.
@@ -804,7 +804,7 @@ class ColumnElement(operators.ColumnOperators, ClauseElement):
         if 'name' is None, an anonymous label name will be generated.
 
         """
-        return Label(name, self, self.type)
+        return Label(name, self, self.type, key=key)
 
     @util.memoized_property
     def anon_label(self):
@@ -3362,7 +3362,7 @@ class Label(ColumnElement):
 
     __visit_name__ = 'label'
 
-    def __init__(self, name, element, type_=None):
+    def __init__(self, name, element, type_=None, key=None):
         """Return a :class:`Label` object for the
         given :class:`.ColumnElement`.
 
@@ -3393,6 +3393,11 @@ class Label(ColumnElement):
             )
 
         self.key = self._label = self._key_label = self.name
+        self._label = self.name
+        if key is not None:
+            self.key = self._key_label = key
+        else:
+            self.key = self._key_label = self.name
         self._element = element
         self._type = type_
         self._proxies = [element]

@@ -3679,11 +3679,13 @@ class Bundle(InspectionAttr):
     def clauses(self):
         return self.__clause_element__().clauses
 
-    def label(self, name):
+    def label(self, name, key=None):
         """Provide a copy of this :class:`.Bundle` passing a new label."""
 
         cloned = self._clone()
         cloned.name = name
+        if key is not None:
+            cloned.key = key
         return cloned
 
     def create_row_processor(self, query, procs, labels):

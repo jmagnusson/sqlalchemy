@@ -168,8 +168,8 @@ class QueryableAttribute(interfaces._MappedAttribute,
             self._parententity,
             of_type=cls)
 
-    def label(self, name):
-        return self._query_clause_element().label(name)
+    def label(self, name, key=None):
+        return self._query_clause_element().label(name, key=key)
 
     def operate(self, op, *other, **kwargs):
         return op(self.comparator, *other, **kwargs)
